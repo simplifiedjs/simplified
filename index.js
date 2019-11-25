@@ -6,6 +6,7 @@ const http = require('http'),
     app = express(),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
+    path = require('path'),
     {define}  = require('./lib/utils');
 
 module.exports = (config, callback, middleWares) => new Setup(config, callback, middleWares);
@@ -24,8 +25,11 @@ function Setup(config, callback, middleWares) {
         fallthrough: true,
         dotfiles: 'ignore',
         maxAge: '365d',
-        extensions: ['js', 'css', 'jpg', 'jpeg', 'png', 'gif']
+        extensions: ['js', 'css', 'jpg', 'jpeg', 'png', 'gif', 'ico']
     };
+
+    // Serve public path
+    app.use(express.static(path.resolve(__dirname, './public'), options));
 
     if (publicPath) {
         app.use(express.static(publicPath, options));
@@ -35,7 +39,12 @@ function Setup(config, callback, middleWares) {
         app.use(express.static(uploadPath, options));
     }
 
-    app.use(cookieParser(), bodyParser.json(), bodyParser.urlencoded({extended: true}));
+    app.use(
+        cookieParser(),
+        bodyParser.json(),
+        bodyParser.urlencoded({extended: true}),
+        require('./lib/route/middleware')
+    );
 
     if (callback) {
         callback.call(null, app);
