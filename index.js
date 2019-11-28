@@ -12,12 +12,13 @@ const http = require('http'),
 module.exports = (config, callback, middleWares) => new Setup(config, callback, middleWares);
 
 function Setup(config, callback, middleWares) {
-    const {absPath, publicPath, uploadPath} = config;
+    const {absPath, publicPath, uploadPath, database} = config;
 
     // Define global variables
     define( 'ABSPATH', absPath || process.cwd() );
     define( 'PublicPath', publicPath );
     define( 'UploadPath', uploadPath );
+    define('DB_CONFIG', database );
 
     // Set static paths with file restrictions
     let options = {
