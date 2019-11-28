@@ -21,8 +21,8 @@ export default class State {
     set(name, value, isSilent = false) {
         let state = this.state;
 
-        if (_.isObject(value)) {
-            state = _.extend({}, state, value);
+        if (_.isObject(name)) {
+            state = _.extend({}, state, name);
         } else {
             state[name] = value;
         }

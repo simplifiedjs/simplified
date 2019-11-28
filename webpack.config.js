@@ -12,7 +12,7 @@ module.exports = {
         __filename: false
     },
     entry: {
-        dom: path.resolve(__dirname, './ui/src/index.jsx')
+        dom: path.resolve(__dirname, './public/view-src/dom.jsx')
     },
     module: {
         rules: [{
@@ -29,7 +29,7 @@ module.exports = {
     },
     output: {
         filename: isProduction ? '[name].min.js' : '[name].js',
-        path: path.resolve(__dirname, './ui'),
+        path: path.resolve(__dirname, './public/js'),
     },
     optimization: {
         splitChunks: {

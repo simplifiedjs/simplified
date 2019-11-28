@@ -24,7 +24,7 @@ function Setup(config, callback, middleWares) {
         index: false,
         fallthrough: true,
         dotfiles: 'ignore',
-        maxAge: '365d',
+       // maxAge: '365d',
         extensions: ['js', 'css', 'jpg', 'jpeg', 'png', 'gif', 'ico']
     };
 

@@ -1,12 +1,18 @@
+import _ from 'underscore';
 import State from './state';
 import {getRoute, setRoute} from "./route";
 import {getRequest} from "./request";
-
-const Config = new State();
+import CurrentUser from '../user/current';
 
 class ScreenState extends State {
     constructor() {
         super();
+
+        this.ready = false;
+    }
+
+    isReady() {
+        return !!this.ready;
     }
 
     addScreen(path, props) {
@@ -31,7 +37,21 @@ class ScreenState extends State {
             return; // todo: Do something, perhaps load a default 404 page
         }
 
+        if (this.isReady() && ! this.shouldFetch(route)) {
+            return;
+        }
+
         getRequest(path).then( r => this.updateScreen(r, route, path));
+    }
+
+    shouldFetch(route) {
+        if (route.requireLogin && !CurrentUser.isLogin()) {
+
+        }
+
+        if (route.permission) {}
+
+        return true;
     }
 
     updateScreen(res, route, path) {
@@ -41,20 +61,18 @@ class ScreenState extends State {
         state.params = route.params;
         state.path = path;
 
-        if (route.state) {
-            let routeState = route.state;
+        let routeState = route.state || {};
 
-            if ('function' === typeof routeState) {
-                routeState = route.state.call(null, route.params, state);
-            }
-
-            _.extend(state, routeState);
+        if ('function' === typeof routeState) {
+            routeState = routeState.call(null, route.params, state);
         }
+
+        _.extend(state, routeState);
 
         this.reset(state);
     }
 }
 
-const Screen = () => new ScreenState();
+const Screen = new ScreenState();
 
 export default Screen;

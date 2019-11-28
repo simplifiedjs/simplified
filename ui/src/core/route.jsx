@@ -1,26 +1,21 @@
 import State from './state';
 import _ from 'underscore';
-import pathRegex from "path-to-regexp";
+import {pathToRegexp} from "path-to-regexp";
 import {parseUrl} from '../utils';
 
 const Routes = new State();
 
-export function getRoute(path) {
-    const routes = Routes.get();
-
-    if (routes[path]) {
-        return _.extend({}, routes[path], {params: {}});
-    }
-
+function findRoute(routePath) {
     let route;
 
     Routes.getKeys().map( routePath => {
-        const {regex, keys} = routes[routePath];
-        let params = {},
+        const keys = [],
+            regex = pathToRegexp(routePath, keys),
+            params = {},
             arr = regex.exec(path);
 
         if (arr) {
-            route = routes[path];
+            route = _.extend({}, routes[path]);
 
             // Remove the first item on the array
             arr.shift();
@@ -38,6 +33,17 @@ export function getRoute(path) {
     return route;
 }
 
+export function getRoute(path) {
+    const routes = Routes.get();
+    let route = routes[path];
+
+    if (!route) {
+        route = findRoute(path);
+    }
+
+    return route;
+}
+
 /**
  *
  * @param {string} path
@@ -50,13 +56,10 @@ export function setRoute(path, props, replace = true) {
         return;
     }
 
-    let keys = [],
-        regex = pathRegex(path, keys),
-        data = {regex, keys, props},
-        url = parseUrl(path);
+    let url = parseUrl(path),
+        data = _.extend({}, props);
 
     data.query = url.query;
 
     Routes.set(path, data);
 }
-
