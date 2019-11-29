@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "mocha",
     "bundle-server-dev": "npx webpack --config webpack.server.config.js --mode development",
     "bundle-server": "npx webpack --config webpack.server.config.js --mode production",
     "bundle-dom-dev": "npx webpack --config webpack.config.js --mode development"
@@ -33,12 +34,14 @@
     "babel-loader": "^8.0.6",
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
+    "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
     "history": "^4.10.1",
+    "mocha": "^6.2.2",
     "path-to-regexp": "^6.0.0",
     "through2": "^3.0.1",
     "vinyl-buffer": "^1.0.1",

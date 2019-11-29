@@ -1,16 +1,13 @@
 'use strict';
 
-const bootstrap = require('../lib/bootstrap'),
-    _ = require('lodash');
+const bootstrap = require('../lib/bootstrap');
 
 bootstrap({
     database: {
-        type: 'mysql',
-        name: 'test_database',
+        driver: 'mysql',
+        database: 'test_database',
         user: 'root',
-        pass: 'root',
+        password: 'root',
         prefix: 'test_'
     }
 });
-
-console.log(Collection);
