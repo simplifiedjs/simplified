@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 describe('Collection Model', function() {
-    it('Should new collection model.', async function() {
+    it('Should create new collection model.', async function() {
         let [err] = await createCollectionModel( 'test_user', {
             ID: {
                 type: 'Id'
@@ -16,10 +16,6 @@ describe('Collection Model', function() {
                 type: 'Object'
             }
         });
-
-        if (err) {
-            console.log(err.message);
-        }
 
         return _.isNull(err);
     });
@@ -44,13 +40,21 @@ describe('Collection Model', function() {
         return _.isNull(err) || _.isEmpty(err);
     });
 
-    it('Should remove collection model', async function() {
+    it('Should copy collection model', async function() {
+        let [err] = await cloneCollectionModel( 'test_user', 'test_user_2' );
+
+        return _.isNull(err);
+    });
+
+    it('Should remove collection model.', async function() {
         let [err] = await dropCollectionModel( 'test_user' );
 
         if (err) {
-            console.log(err.message);
+            return false;
         }
 
-        return _.isNull(err);
+        let [err2] = await dropCollectionModel( 'test_user_2' );
+
+        return _.isNull(err2);
     });
 });
