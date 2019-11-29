@@ -12,13 +12,8 @@ const http = require('http'),
 module.exports = (config, callback, middleWares) => new Setup(config, callback, middleWares);
 
 function Setup(config, callback, middleWares) {
-    const {absPath, publicPath, uploadPath, database} = config;
-
-    // Define global variables
-    define( 'ABSPATH', absPath || process.cwd() );
-    define( 'PublicPath', publicPath );
-    define( 'UploadPath', uploadPath );
-    define('DB_CONFIG', database );
+    // Autoload
+    require('./lib/bootstrap')(config);
 
     // Set static paths with file restrictions
     let options = {
@@ -32,12 +27,12 @@ function Setup(config, callback, middleWares) {
     // Serve public path
     app.use(express.static(path.resolve(__dirname, './public'), options));
 
-    if (publicPath) {
-        app.use(express.static(publicPath, options));
+    if (PUBLIC_PATH) {
+        app.use(express.static(PUBLIC_PATH, options));
     }
 
-    if (uploadPath) {
-        app.use(express.static(uploadPath, options));
+    if (UPLOAD_PATH) {
+        app.use(express.static(UPLOAD_PATH, options));
     }
 
     app.use(
