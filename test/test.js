@@ -15,6 +15,8 @@ require('../lib/bootstrap')({
     }
 });
 
-let screen = Screen.get();
+let err = setError(null, 'systemError');
+//err.message = 'An error happening';
+//err.errCode = '404';
 
-console.log(screen);
+console.log(err);

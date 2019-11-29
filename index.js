@@ -93,11 +93,6 @@ Setup.prototype.https = function(port, host, ssl) {
     return this;
 };
 
-function isAdmin(req, res, next) {
-
-    next();
-}
-
 function handleGet(req, res) {
     let admin = app.IS_ADMIN ? 'YES' : 'NO';
 
