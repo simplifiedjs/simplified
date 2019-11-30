@@ -40,7 +40,9 @@ describe('AppSetting Collection Model', function() {
     });
 
     it('Should remove a single setting.', async function() {
+        let [err] = await appSetting.remove({name: 'version'});
 
+        return _.isNull(err);
     });
 
     it('Should remove collection model.', async function() {
