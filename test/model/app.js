@@ -39,6 +39,10 @@ describe('AppSetting Collection Model', function() {
         return _.isNull(err) && _.isObject(settings);
     });
 
+    it('Should remove a single setting.', async function() {
+
+    });
+
     it('Should remove collection model.', async function() {
         let [err] = await dropCollectionModel( 'AppSetting' );
 
