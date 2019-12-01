@@ -1,8 +1,8 @@
 'use strict';
 
-const _ = require('lodash'),
-    schema = require('../../lib/collection/schema/app'),
-    methods = require('../../lib/collection/methods/app');
+const {assert} = require('chai'),
+    _ = require('lodash'),
+    schema = require('../../lib/collection/schema/app');
 
 describe('AppSetting Collection Model', function() {
     it('Should create collection model.', async function() {
@@ -11,17 +11,13 @@ describe('AppSetting Collection Model', function() {
         return _.isNull(err);
     });
 
-    Collection.add( 'AppSetting', schema, methods );
-
     const appSetting = Collection.AppSetting;
 
     it('Should insert application settings.', async function() {
         // Insert as single setting
         let [err] = await appSetting.set({name: 'test 1', value: true});
 
-        if (err) {
-            return false;
-        }
+        assert.isNull(err);
 
         // Insert as multiple settings
         let [err2] = await appSetting.set({settings: [
@@ -30,24 +26,26 @@ describe('AppSetting Collection Model', function() {
                 {name: 'apps', value: [1, 2, 3], autoload: false}
             ]});
 
-        return _.isNull(err2);
+        assert.isNull(err2);
     });
 
     it('Should get the application settings.', async function() {
         let [err, settings] = await appSetting.get({autoload: false});
 
-        return _.isNull(err) && _.isObject(settings);
+        assert.isNull(err);
+        assert.isObject(settings);
+        assert.isTrue(!_.isEmpty(settings));
     });
 
     it('Should remove a single setting.', async function() {
         let [err] = await appSetting.remove({name: 'version'});
 
-        return _.isNull(err);
+        assert.isNull(err);
     });
 
     it('Should remove collection model.', async function() {
         let [err] = await dropCollectionModel( 'AppSetting' );
 
-        return _.isNull(err);
+        assert.isNull(err);
     });
 });
