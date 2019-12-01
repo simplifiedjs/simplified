@@ -55,8 +55,7 @@ describe('User Model', function() {
         // Get all users
         let [err3, users] = await userModel.query({});
         assert.isNull(err3);
-
-        console.log(users);
+        assert.isArray(users);
     });
 
     it('Should delete user from the database.', async function() {
