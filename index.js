@@ -1,5 +1,101 @@
 'use strict';
 
+/* global Simplified */
+
+const _ = require('lodash'),
+    app = require('./lib/route/app'),
+    {define} = require('./lib/utils');
+
+module.exports = {setUp, listen, admin, client, mobile};
+
+define( 'Simplified', {version: '1.0.0-beta'} );
+
+/**
+ * Sets the application's configuration.
+ *
+ * @param {string|object} config
+ * @param {string} config.name
+ * @param {string} config.description
+ * @param {object} config.database
+ * @param {object} config.mail
+ */
+function setUp(config) {
+    if (_.isString(config)) {
+        // Assume absolute path
+        config = require(config);
+    }
+
+    const {name, description, publicPath, uploadPath, database, mail, ssl} = config;
+
+    define( 'name', name, Simplified );
+    define( 'description', description, Simplified );
+    define( 'publicPath', publicPath, Simplified );
+    define( 'uploadPath', uploadPath, Simplified );
+    define( '__database', database, Simplified );
+    define( '__mail', mail, Simplified );
+}
+
+/**
+ * Runs the application server, including client, admin, and mobile.
+ *
+ * @param {int} port
+ * @param {string} host
+ * @param {object} ssl
+ */
+function listen(port, host, ssl) {
+    app.init();
+
+    // Set admin with end-point
+    app.admin('/admin');
+
+    // Set client
+    app.client();
+
+    // Set mobile listener
+    app.mobile('/m/api');
+
+    app.listen(port, host, ssl);
+}
+
+/**
+ * Runs the administration area server.
+ *
+ * @param port
+ * @param host
+ * @param {object} ssl
+ */
+function admin(port, host, ssl) {
+    app.init();
+    app.admin();
+    app.listen(port, host, ssl);
+}
+
+/**
+ * Runs the client side server.
+ *
+ * @param port
+ * @param host
+ */
+function client(port, host, ssl) {
+    app.init();
+    app.client();
+    app.listen(port, host, ssl);
+}
+
+/**
+ * Runs the mobile handler server.
+ * @param port
+ * @param host
+ * @param {object} ssl
+ */
+function mobile(port, host, ssl) {
+    app.init();
+    app.mobile();
+    app.listen(port, host, ssl);
+}
+
+/**
+
 const http = require('http'),
     https = require('https'),
     express = require('express'),
@@ -7,6 +103,7 @@ const http = require('http'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     path = require('path'),
+    admin = require('./lib/route/admin'),
     {define}  = require('./lib/utils');
 
 module.exports = (config, callback, middleWares) => new Setup(config, callback, middleWares);
@@ -38,8 +135,8 @@ function Setup(config, callback, middleWares) {
     app.use(
         cookieParser(),
         bodyParser.json(),
-        bodyParser.urlencoded({extended: true}),
-        require('./lib/route/middleware')
+        bodyParser.urlencoded({extended: true})
+        //require('./lib/route/middleware')
     );
 
     if (callback) {
@@ -47,7 +144,7 @@ function Setup(config, callback, middleWares) {
     }
 
     if (middleWares) {
-        app.use(middleWares);
+        //app.use(middleWares);
     }
 }
 
@@ -67,10 +164,12 @@ Setup.prototype.client = function(port, host, ssl) {
 };
 
 Setup.prototype.admin = function(port, host, ssl) {
-    app.isAdmin = true;
-    define('IS_ADMIN', true );
+    define( 'app', app, AdminScreen );
 
-    require('./lib/route/admin')(app);
+    app.use(admin.init);
+    app.get('/favicon.ico', (req, res) => {
+        res.end();
+    });
 
     if (ssl) {
         this.https(port, host, ssl);
@@ -98,3 +197,4 @@ function handleGet(req, res) {
 
     res.end(admin);
 }
+ **/
