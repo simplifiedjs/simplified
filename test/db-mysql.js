@@ -1,8 +1,9 @@
 'use strict';
 
-const bootstrap = require('../lib/bootstrap');
+const {setUp} = require('../index'),
+    bootstrap = require('../lib/bootstrap');
 
-bootstrap({
+setUp({
     database: {
         driver: 'mysql',
         database: 'test_database',
@@ -21,3 +22,5 @@ bootstrap({
         }
     }
 });
+
+bootstrap();

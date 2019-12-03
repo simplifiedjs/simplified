@@ -1,8 +1,10 @@
 'use strict';
 
+/* global Simplified */
+
 const {assert} = require('chai'),
     _ = require('lodash'),
-    schema = require('../../lib/collection/schema/user-meta');
+    schema = require('../../lib/collection/user/meta-schema');
 
 describe('User Meta Collection Model', async function() {
     it('Should create collection in the database.', async function() {
@@ -11,7 +13,7 @@ describe('User Meta Collection Model', async function() {
         assert.isNull(err);
     });
 
-    const userMeta = Collection.UserMeta;
+    const userMeta = Simplified.Collection.UserMeta;
 
     it('Should insert user meta.', async function() {
         // Insert a single meta

@@ -25,7 +25,7 @@ function setUp(config) {
         config = require(config);
     }
 
-    const {name, description, publicPath, uploadPath, database, mail, ssl} = config;
+    const {name, description, publicPath, uploadPath, database, mail} = config;
 
     define( 'name', name, Simplified );
     define( 'description', description, Simplified );

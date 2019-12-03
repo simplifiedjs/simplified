@@ -1,8 +1,11 @@
 'use strict';
 
+/* global Simplified */
+
 const {assert} = require('chai'),
     _ = require('lodash'),
-    userSchema = require('../../lib/collection/schema/user');
+    userSchema = require('../../lib/collection/user/schema'),
+    Collection = Simplified.Collection;
 
 describe('User Model', function() {
     it('Should create collection in the database.', async function() {

@@ -1,8 +1,10 @@
 'use strict';
 
+/* global Simplified */
+
 const {assert} = require('chai'),
     _ = require('lodash'),
-    schema = require('../../lib/collection/schema/user-group');
+    schema = require('../../lib/collection/user/group-schema');
 
 describe('User Group Model', function() {
     it('Should create new collection in the database.', async function() {
@@ -11,7 +13,7 @@ describe('User Group Model', function() {
         return _.isNull(err);
     });
 
-    const groupModel = Collection.UserGroup;
+    const groupModel = Simplified.Collection.UserGroup;
 
     let groupId;
 

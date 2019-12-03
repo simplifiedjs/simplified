@@ -1,17 +1,20 @@
 'use strict';
 
+/* global createCollectionModel, dropCollectionModel, Simplified */
+
 const {assert} = require('chai'),
     _ = require('lodash'),
-    schema = require('../../lib/collection/schema/app');
+    schema = require('../../lib/collection/app/schema');
 
 describe('AppSetting Collection Model', function() {
+
     it('Should create collection model.', async function() {
         let [err] = await createCollectionModel( 'AppSetting', schema );
 
         return _.isNull(err);
     });
 
-    const appSetting = Collection.AppSetting;
+    const appSetting = Simplified.Collection.AppSetting;
 
     it('Should insert application settings.', async function() {
         // Insert as single setting

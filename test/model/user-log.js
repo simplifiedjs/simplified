@@ -1,8 +1,10 @@
 'use strict';
 
+/* global Simplified */
+
 const {assert} = require('chai'),
     _ = require('lodash'),
-    schema = require('../../lib/collection/schema/user-log');
+    schema = require('../../lib/collection/user/log-schema');
 
 describe( 'User Log Collection Model', function() {
     it('Should create collection in the database.', async function() {
@@ -11,7 +13,7 @@ describe( 'User Log Collection Model', function() {
         assert.isNull(err);
     });
 
-    const userLog = Collection.UserLog;
+    const userLog = Simplified.Collection.UserLog;
     let logKey;
 
     it('It should insert new log data in the database.', async function() {
