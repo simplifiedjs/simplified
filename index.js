@@ -28,31 +28,6 @@ define( 'Simplified', sEvent() );
 define( 'version', '1.0.0.beta', Simplified );
 
 /**
- * Sets the application's configuration.
- *
- * @param {string|object} config
- * @param {string} config.name
- * @param {string} config.description
- * @param {object} config.database
- * @param {object} config.mail
- */
-function setUp(config) {
-    if (_.isString(config)) {
-        // Assume absolute path
-        config = require(config);
-    }
-
-    const {name, description, publicPath, uploadPath, database, mail} = config;
-
-    define( 'name', name, Simplified );
-    define( 'description', description, Simplified );
-    define( 'publicPath', publicPath, Simplified );
-    define( 'uploadPath', uploadPath, Simplified );
-    define( '__database', database, Simplified );
-    define( '__mailer', mail, Simplified );
-}
-
-/**
  * Runs the application which listens to client, admin, and mobile handler.
  *
  * @param {int} port
