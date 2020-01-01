@@ -81,7 +81,7 @@ function html(req, res) {
     <script type="text/javascript" src="/js/common-bundle.js?v=${time}"></script>
     <script type="text/javascript" src="/js/simplified.js?v=${time}"></script>
     <script type="text/javascript">
-    Simplified({
+    window.Simplified({
     hash: 'hashKey'
     });
 </script>

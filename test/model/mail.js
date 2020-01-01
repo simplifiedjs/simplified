@@ -1,25 +1,28 @@
 'use strict';
 
+/* global Simplified */
+
 const {assert} = require('chai'),
     _ = require('lodash'),
-    schema = require('../../lib/collection/schema/mail');
+    schema = require('../../lib/collection/mail/schema');
 
 describe('Mail Collection Model', function() {
-    it('Should mail collection in the database.', async function() {
-        let [err] = await createCollectionModel( 'Mail', schema );
+    it('Should create mail collection in the database.', async function() {
+        let [err] = await createCollectionModel( 'Mailer', schema );
 
         assert.isNull(err);
     });
 
-    const mailModel = Collection.Mail;
+    const mailModel = Simplified.Collection.Mailer;
     let mailId;
 
     it('Should create mail template in the database.', async function() {
-        let [err, id] = await mailModel.set({
+        let [err, id] = await mailModel.setTemplate({
             name: 'Test Mail',
             from: 'Admin <admin@local.info>',
             subject: 'Test mail here',
-            content: 'This is a test email.'
+            content: 'This is a test email.',
+            event: 'test-mail'
         });
 
         assert.isNull(err);
@@ -27,12 +30,21 @@ describe('Mail Collection Model', function() {
         mailId = id;
     });
 
-    it('Should get template data from the database.', async function() {
-        let [err, mail] = await mailModel.get({ID: mailId});
+    it('Should get a single template from the database.', async function() {
+        let [err, mail] = await mailModel.getTemplate({ID: mailId});
 
         assert.isNull(err);
         assert.isTrue(_.isEqual(mail.ID, mailId));
     });
+
+    it('Should get a list of templates from the database.', async function() {
+        let [err, templates] = await mailModel.templates();
+
+        assert.isNull(err);
+        assert.isArray(templates);
+    });
+
+    /**
 
     it('Should send email notification', async function() {
         this.timeout(50000);
@@ -43,9 +55,10 @@ describe('Mail Collection Model', function() {
 
         assert.isTrue(!_.isError(res));
     });
+     **/
 
     it('Should remove mail collection from the database.', async function() {
-        let [err] = await dropCollectionModel( 'Mail' );
+        let [err] = await dropCollectionModel( 'Mailer' );
 
         assert.isNull(err);
     });

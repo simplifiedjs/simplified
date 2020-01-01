@@ -1,5 +1,7 @@
 'use strict';
 
+/* global Simplified */
+
 const {setUp} = require('../index'),
     bootstrap = require('../lib/bootstrap');
 
@@ -24,3 +26,6 @@ setUp({
 });
 
 bootstrap();
+
+// Trigger init
+Simplified.trigger( 'init' );

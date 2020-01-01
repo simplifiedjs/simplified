@@ -2,10 +2,7 @@
 
 const _ = require('lodash');
 
-function b({login, email, group}) {
-    let a = _.omitBy({login, email, group}, _.isUndefined);
+let a = [1];
+a.push(2);
 
-    console.log(a);
-}
-
-b({login: 'irene'});
+console.log(a);

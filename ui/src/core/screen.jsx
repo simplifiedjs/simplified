@@ -4,6 +4,8 @@ import {getRoute, setRoute} from "./route";
 import {getRequest} from "./request";
 import CurrentUser from '../user/current';
 
+let Config = {};
+
 class ScreenState extends State {
     constructor() {
         super();
@@ -13,6 +15,10 @@ class ScreenState extends State {
 
     isReady() {
         return !!this.ready;
+    }
+
+    setConfig(config) {
+        Config = config;
     }
 
     addScreen(path, props) {

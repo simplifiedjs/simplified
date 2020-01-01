@@ -15,6 +15,35 @@ gulp.task('bundle-common', function() {
         //entries: ['./ui/src/index.jsx']
     });
 
+    /**
+
+    b.transform('babelify', {
+        extensions: ['.jsx', 'jsx'],
+        presets: ['@babel/preset-env', '@babel/preset-react']
+    });
+     **/
+
+    b.exclude(bundles);
+
+    bundles.map( e => b.require(e) );
+
+    //b.require('./ui/src/index.jsx', {expose: 'simplified-ui'});
+
+    return b.bundle()
+        .pipe(source('common-bundle.js'))
+        .pipe(gulp.dest('./ui'))
+        .on( 'end', function() {
+            return gulp.src('./ui/common-bundle.js')
+                .pipe(gulp.dest('./public/js'));
+        });
+});
+
+gulp.task('bundle-ui', function() {
+    const b = browserify({
+        extensions: ['.jsx'],
+        //entries: ['./ui/src/index.jsx']
+    });
+
     b.transform('babelify', {
         extensions: ['.jsx', 'jsx'],
         presets: ['@babel/preset-env', '@babel/preset-react']
@@ -22,15 +51,16 @@ gulp.task('bundle-common', function() {
 
     b.exclude(bundles);
 
-    bundles.map( e => b.require(e) );
+    //bundles.map( e => b.require(e) );
 
-    b.require('./ui/src/index.jsx', {expose: 'simplified-ui'});
+    b.require('./ui/src/index.jsx', {expose: 'Simplified'});
+    b.require('./ui/src/client.jsx', {expose: 'Simplified/client'});
 
     return b.bundle()
-        .pipe(source('common-bundle.js'))
+        .pipe(source('simplified.js'))
         .pipe(gulp.dest('./ui'))
         .on( 'end', function() {
-            return gulp.src('./ui/common-bundle.js')
+            return gulp.src('./ui/simplified.js')
                 .pipe(gulp.dest('./public/js'));
         });
 });
